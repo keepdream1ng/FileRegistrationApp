@@ -38,6 +38,12 @@ public class FileWatcherService : IHostedService
 
 	private void StartFileWatcher()
 	{
+		if (!Directory.Exists(_config.Path))
+		{
+			string message = $"Directory does not exist \"{_config.Path}\"";
+			_logger.LogCritical(message);
+			throw new Exception(message);
+		}
 		_watcher = new FileSystemWatcher();
 		_watcher.Path = _config.Path;
 		_watcher.Created += NotifyAboutFile;
