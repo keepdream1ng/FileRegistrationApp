@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FileRegistrationApp;
 
-internal class Program
+public class Program
 {
 	static async Task Main(string[] args)
 	{
@@ -17,17 +17,9 @@ internal class Program
 		{
 			Log.Information("Starting application...");
 
-			var builder = new HostBuilder()
-				.ConfigureServices((hostContext, services) =>
-				{
-					services.AddSingleton<IFileAddedNotificator, FileTrayNotificationService>();
-					services.AddSingleton<FileWatherServiceConfig>(GetWatcherConfig(args));
-					services.AddHostedService<FileWatcherService>();
-				})
-				.UseSerilog()
-				.UseConsoleLifetime();
-
-			await builder.Build().RunAsync();
+			var host = CreateHostBuilder(args)
+				.Build(); 
+			await host.RunAsync();
 		}
 		catch (Exception ex)
 		{
@@ -38,6 +30,17 @@ internal class Program
 			Log.CloseAndFlush();
 		}
 	}
+
+	public static IHostBuilder CreateHostBuilder(string[] args) =>
+		new HostBuilder()
+		.ConfigureServices((hostContext, services) =>
+		{
+			services.AddSingleton<IFileAddedNotificator, FileTrayNotificationService>();
+			services.AddSingleton<FileWatherServiceConfig>(GetWatcherConfig(args));
+			services.AddHostedService<FileWatcherService>();
+		})
+		.UseSerilog()
+		.UseConsoleLifetime();
 
 	private static void ConfigureLogging()
 	{

@@ -26,8 +26,8 @@ public class FileTrayNotificationService : IDisposable, IFileAddedNotificator
 		{
 			Icon = SystemIcons.Information,
 			Visible = true,
-			BalloonTipTitle = "File Registration App",
-			BalloonTipText = $"File added \"{e.Name}\" at {DateTime.Now}"
+			BalloonTipTitle = "File Registered!",
+			BalloonTipText = $"Added \"{e.Name}\" at {DateTime.Now}"
 		};
 		int timeout = 3000;
 		notifyIcon.ShowBalloonTip(timeout);
