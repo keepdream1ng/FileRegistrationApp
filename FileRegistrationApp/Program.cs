@@ -20,6 +20,7 @@ internal class Program
 			var builder = new HostBuilder()
 				.ConfigureServices((hostContext, services) =>
 				{
+					services.AddSingleton<IFileAddedNotificator, FileTrayNotificationService>();
 					services.AddSingleton<FileWatherServiceConfig>(GetWatcherConfig(args));
 					services.AddHostedService<FileWatcherService>();
 				})

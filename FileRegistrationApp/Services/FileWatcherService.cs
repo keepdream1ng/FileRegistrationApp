@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
@@ -10,14 +11,17 @@ public class FileWatcherService : IHostedService
 	private FileSystemWatcher _watcher;
 	private readonly FileWatherServiceConfig _config;
 	private readonly ILogger<FileWatcherService> _logger;
+	private readonly IFileAddedNotificator _fileAddedEventSource;
 
 	public FileWatcherService(
 		FileWatherServiceConfig config,
+		IFileAddedNotificator fileAddedEventSource,
 		ILogger<FileWatcherService>  logger
 		)
     {
 		_config = config;
 		_logger = logger;
+		_fileAddedEventSource = fileAddedEventSource;
 	}
 
     public Task StartAsync(CancellationToken cancellationToken)
@@ -55,6 +59,7 @@ public class FileWatcherService : IHostedService
 	private void NotifyAboutFile(object sender, FileSystemEventArgs e)
 	{
 		_logger.LogInformation($"New file added {e.Name}");
+		_fileAddedEventSource.OnFileAdded(e);
 	}
 }
 
