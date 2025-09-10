@@ -16,10 +16,13 @@ public class Program
 		try
 		{
 			Log.Information("Starting application...");
-
 			var host = CreateHostBuilder(args)
 				.Build(); 
 			await host.RunAsync();
+		}
+		catch (PathNotFoundException)
+		{
+			Log.Fatal("Application terminated");
 		}
 		catch (Exception ex)
 		{
@@ -31,8 +34,9 @@ public class Program
 		}
 	}
 
-	public static IHostBuilder CreateHostBuilder(string[] args) =>
-		new HostBuilder()
+	public static IHostBuilder CreateHostBuilder(string[] args)
+	{
+		return new HostBuilder()
 		.ConfigureServices((hostContext, services) =>
 		{
 			services.AddSingleton<IFileAddedNotificator, FileTrayNotificationService>();
@@ -41,6 +45,7 @@ public class Program
 		})
 		.UseSerilog()
 		.UseConsoleLifetime();
+	}
 
 	private static void ConfigureLogging()
 	{

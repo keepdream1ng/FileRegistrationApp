@@ -42,7 +42,7 @@ public class FileWatcherService : IHostedService
 		{
 			string message = $"Directory does not exist \"{_config.Path}\"";
 			_logger.LogCritical(message);
-			throw new Exception(message);
+			throw new PathNotFoundException(message);
 		}
 		_watcher = new FileSystemWatcher();
 		_watcher.Path = _config.Path;
