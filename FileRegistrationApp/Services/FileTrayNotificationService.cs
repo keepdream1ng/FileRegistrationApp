@@ -39,6 +39,6 @@ public class FileTrayNotificationService : IDisposable, IFileAddedNotificator
 
 public interface IFileAddedNotificator
 {
-	internal void OnFileAdded(FileSystemEventArgs eventArgs);
+	void OnFileAdded(FileSystemEventArgs eventArgs);
 	event EventHandler<FileSystemEventArgs> FileAdded;
 }
