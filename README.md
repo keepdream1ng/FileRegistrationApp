@@ -14,7 +14,7 @@ You can configure the folder path in one of two ways:
 2. **Command-line arguments** – pass the folder path as an argument when running the app.
 
 ## Usage
-Example of running the application from the solution directory:
+Example of running the application from the solution directory (too bad modern dotnet command line tools dont really work, so we need to manually build a release version):
 
 ```bash
 .\FileRegistrationApp\bin\Release\FileRegistrationApp.exe "C:\testing"
